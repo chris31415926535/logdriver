@@ -33,10 +33,10 @@ add_log(
 \item{logdriver_apikey}{Placeholder for future use.}
 }
 \value{
-
+Returns a log message, but mainly called for side effects.
 }
 \description{
-Create a log entry to stdio and/or a Logdriver server
+To take advantage of asynchronous http calls, make sure to set a future::plan().
 }
 \examples{
 \dontrun{
