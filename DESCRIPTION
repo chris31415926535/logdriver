@@ -12,3 +12,5 @@ LazyData: true
 RoxygenNote: 7.2.1
 Imports: 
     magrittr
+URL: https://github.com/chris31415926535/logdriver
+BugReports: https://github.com/chris31415926535/logdriver/issues
