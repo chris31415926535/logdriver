@@ -1,0 +1,73 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# logdriver
+
+```{r, out.width = "100px", echo = FALSE}
+knitr::include_graphics("https://github.com/chris31415926535/logdriver.app/blob/master/logo/logdriver_hex.png?raw=true")
+```
+
+Logdriver is a simple free log-management tool for small projects. *It is an early-stage work in progress.*
+
+[This repo is for the R package: if you're looking for the accompanying web app, click this link.](https://github.com/chris31415926535/logdriver.app)
+
+# What's it for?
+
+When you deploy a data-science application to the cloud, like a Shiny app, a Plumber API, or anything else, your application's logs are your most important way of keeping track of it. Are people using it? What are they using it for? And--perhaps most importantly--if it's crashing, what's going on?
+
+For a small project, it's hard to know what to do with these logs. Writing them to `stdout` and monitoring them through your hosting provider is the simplest option, but it won't let you do any analytics. If you're generating billions of logs per day, you need (and can likely afford) a commercial log-management solution. But if you're generating thousands, or just dozens, of logs per day, these bigger solutions are likely overkill, and their freemium tiers often limit you to a few days' worth of log retention.
+
+Logdriver is designed to meet a small project's log-management needs simply and freely. 
+
+# How does it work?
+
+Logdriver is written entirely in R, and has two main pieces:
+
+* A web app for storing, updating, and analyzing logs; and,
+* An R package for communicating with the web app (**this GitHub repo is for the R package!**)
+
+The web app has three main parts:
+
+* A SQLite database that stores log information;
+* A Plumber API for adding and retrieving logs; and,
+* A Shiny web application for viewing and analyzing log data.
+
+[Learn more about the web app here.](https://github.com/chris31415926535/logdriver.app)
+
+# How do I use the web app?
+
+You can spin up each of the three pieces individually, or you can deploy Logdriver using a single Docker image. This image runs *both* processes--the API and the web app--which is, er, not always a best practice, but gets the job done. (I mentioned this was for small projects, right?) Internally, the web app runs on port 8080 and the API runs on port 8000, so you can map those two ports to whatever you like when you spin up a container. 
+
+Here's an example:
+
+`docker run -d -p 8000:8000 -p 8080:8080 logdriver`
+
+If you run it using that command, it will use an SQLite server *internal* to the container. **This means that if your Docker container disappears, you'll lose your log data.** 
+
+For permanent log starage, you can mount a system folder to the Docker image at `/root/logs` when you start it:
+
+`docker run -d -p 8000:8000 -p 8080:8080 --mount type=bind,source=/path/to/your/local/folder,target=/root/logs logdriver`
+
+If you're deploying the Docker image to a cloud provider, look for instructions to mount a volume.
+
+# Future plans
+
+*Right now, Logdriver is just barely a minimum viable product!* Planned improvements include:
+
+* Better design and analytics for the Shiny app.
+* Log event levels (e.g. info/warn/error/critical).
+* Basic alerts (e.g. send email if an application logs a critical error).
+* (Optional?) Bearer authentication for the API.
+* (Optional?) Login/password-protection for the Shiny app.

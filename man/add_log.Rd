@@ -41,9 +41,13 @@ To take advantage of asynchronous http calls, make sure to set a future::plan().
 \examples{
 \dontrun{
 # write log to console
-add_log(level = "info", username = "chris", event = "created log", description = "this is a really informative log printed to stdout")
+add_log(level = "info", username = "chris", event = "created log",
+        description = "this is a really informative log printed to stdout")
 
 # write log to Logdriver server hosted remotely
-add_log(level = "info", username = "chris", event = "created log", description = "this log is going on a logdriver server", logdriver_appname = "testapp", logdriver_host = "logdriver-test.fly.dev", logdriver_port = "8000" )
+add_log(level = "info", username = "chris", event = "created log",
+        description = "this log is going on a logdriver server",
+        logdriver_appname = "testapp", logdriver_host = "logdriver-test.fly.dev",
+        logdriver_port = "8000" )
 }
 }

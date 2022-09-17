@@ -18,10 +18,14 @@
 #' @examples
 #' \dontrun{
 #' # write log to console
-#' add_log(level = "info", username = "chris", event = "created log", description = "this is a really informative log printed to stdout")
+#' add_log(level = "info", username = "chris", event = "created log",
+#'         description = "this is a really informative log printed to stdout")
 #'
 #' # write log to Logdriver server hosted remotely
-#' add_log(level = "info", username = "chris", event = "created log", description = "this log is going on a logdriver server", logdriver_appname = "testapp", logdriver_host = "logdriver-test.fly.dev", logdriver_port = "8000" )
+#' add_log(level = "info", username = "chris", event = "created log",
+#'         description = "this log is going on a logdriver server",
+#'         logdriver_appname = "testapp", logdriver_host = "logdriver-test.fly.dev",
+#'         logdriver_port = "8000" )
 #' }
 add_log <- function(level = c("info", "warn", "error", "critical"), username = NA, event = NA, description = NA, logdriver_appname = NA, logdriver_host = NA, logdriver_port = NA, logdriver_apikey = NA){
 
@@ -92,7 +96,7 @@ add_log <- function(level = c("info", "warn", "error", "critical"), username = N
 
         logmessage
       }) %>%
-      then(
+      promises::then(
         onRejected = function(err) {
           logmessage <- sprintf("%s | %s | %s | %s | %s ||| COULD NOT CONNECT TO LOGDRIVER SERVER https://%s:%s", Sys.time(), level, username, event, description, logdriver_host, logdriver_port)
           message(logmessage)
