@@ -50,8 +50,11 @@ add_log <- function(level = c("info", "warn", "error", "critical"), username = N
   # NOTE! this is now done on the server
   #datetime <- as.POSIXlt(Sys.time(), tz = "GMT")
 
+  # format time using sub-second accuracy
+  log_time <- format(Sys.time(), "%Y-%m-%d %H:%M:%OS3 %Z")
+
   if (local_only) {
-    logmessage <- sprintf("%s | %s | %s | %s | %s" , Sys.time(), level, username, event, description)
+    logmessage <- sprintf("%s | %s | %s | %s | %s" , log_time, level, username, event, description)
     message(logmessage)
   }
 
@@ -85,7 +88,7 @@ add_log <- function(level = c("info", "warn", "error", "critical"), username = N
         logdriver_respbody <- unlist(httr2::resp_body_json(resp))
 
         if (logdriver_respcode != 200) {
-          logmessage <- sprintf("%s | %s | %s | %s | %s ||| %s" , Sys.time(), level, username, event, description, logdriver_respbody)
+          logmessage <- sprintf("%s | %s | %s | %s | %s ||| %s" , log_time, level, username, event, description, logdriver_respbody)
           message(logmessage)
         }
 
@@ -98,7 +101,7 @@ add_log <- function(level = c("info", "warn", "error", "critical"), username = N
       }) %>%
       promises::then(
         onRejected = function(err) {
-          logmessage <- sprintf("%s | %s | %s | %s | %s ||| COULD NOT CONNECT TO LOGDRIVER SERVER https://%s:%s", Sys.time(), level, username, event, description, logdriver_host, logdriver_port)
+          logmessage <- sprintf("%s | %s | %s | %s | %s ||| COULD NOT CONNECT TO LOGDRIVER SERVER https://%s:%s", log_time, level, username, event, description, logdriver_host, logdriver_port)
           message(logmessage)
           logmessage
         }

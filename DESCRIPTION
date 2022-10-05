@@ -1,7 +1,7 @@
 Package: logdriver
 Type: Package
 Title: Easy Cloud-Hosted Logging for Small Projects
-Version: 0.1.0
+Version: 0.1.1.9000
 Author: Christopher Belanger
 Maintainer: Christopher Belanger <christopher@belangeranalytics.com>
 Description: Logdriver is a simple free log-management tool for small projects.
